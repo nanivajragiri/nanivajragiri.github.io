@@ -1,35 +1,444 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Nani Vajragiri</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nanivajragiri | Official Link Hub & Portfolio</title>
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #08090d;
+            --card-bg: rgba(18, 20, 29, 0.65);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover-border: rgba(99, 102, 241, 0.4);
+            --accent-glow: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.15), transparent 70%);
+            --primary-accent: #6366f1;
+            --secondary-accent: #ec4899;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Ambient Dynamic Background Blobs */
+        .ambient-blob {
+            position: fixed;
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: 0;
+            opacity: 0.35;
+            pointer-events: none;
+            animation: float 10s infinite alternate ease-in-out;
+        }
+        .blob-1 { top: -100px; left: -100px; background: #6366f1; }
+        .blob-2 { bottom: -100px; right: -100px; background: #ec4899; animation-delay: -5s; }
+        .blob-3 { top: 40%; left: 60%; width: 350px; height: 350px; background: #06b6d4; opacity: 0.2; }
+
+        @keyframes float {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(40px) scale(1.1); }
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Bento Card Base */
+        .bento-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 28px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .bento-card:hover {
+            border-color: var(--card-hover-border);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 35px rgba(0, 0, 0, 0.4), 0 0 25px rgba(99, 102, 241, 0.15);
+        }
+
+        /* Profile Hero Card */
+        .profile-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 24px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%), var(--card-bg);
+        }
+
+        .profile-left {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 90px;
+            height: 90px;
+        }
+
+        .avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 24px;
+            background: linear-gradient(135deg, #6366f1, #ec4899);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+            font-weight: 700;
+            color: #ffffff;
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
+        }
+
+        .status-badge {
+            position: absolute;
+            bottom: -4px;
+            right: -4px;
+            background: #10b981;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 3px solid #08090d;
+            box-shadow: 0 0 10px #10b981;
+        }
+
+        .profile-info h1 {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .verified-icon {
+            color: #38bdf8;
+            font-size: 20px;
+        }
+
+        .profile-info p {
+            color: var(--text-sub);
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            color: #34d399;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #10b981;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Bento Grid */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .social-link {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 140px;
+            cursor: pointer;
+        }
+
+        .card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .icon-box {
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .social-link:hover .icon-box {
+            transform: scale(1.1);
+        }
+
+        .arrow-icon {
+            color: var(--text-sub);
+            font-size: 14px;
+            transition: all 0.3s ease;
+            opacity: 0.6;
+        }
+
+        .social-link:hover .arrow-icon {
+            color: var(--text-main);
+            transform: translate(3px, -3px);
+            opacity: 1;
+        }
+
+        .card-bottom h3 {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .card-bottom span {
+            font-size: 12px;
+            color: var(--text-sub);
+        }
+
+        /* Brand Colors */
+        .instagram .icon-box { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #fff; }
+        .linkedin .icon-box { background: #0077b5; color: #fff; }
+        .github .icon-box { background: #24292e; color: #fff; border: 1px solid rgba(255,255,255,0.15); }
+        .whatsapp .icon-box { background: #25d366; color: #fff; }
+        .twitter .icon-box { background: #000; color: #fff; border: 1px solid rgba(255,255,255,0.15); }
+        .youtube .icon-box { background: #ff0000; color: #fff; }
+
+        /* Wide Feature Box */
+        .wide-card {
+            grid-column: span 3;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 30px;
+            background: linear-gradient(90deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%), var(--card-bg);
+        }
+
+        .skills-tag-wrap {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #cbd5e1;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-sub);
+            font-size: 13px;
+            margin-top: 10px;
+        }
+
+        /* Responsive Layout */
+        @media (max-width: 768px) {
+            .bento-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .wide-card {
+                grid-column: span 2;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+            .wide-card {
+                grid-column: span 1;
+            }
+            .profile-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
 </head>
 <body>
 
-    <h1>Hi, I'm Nani Vajragiri 👋</h1>
+    <!-- Ambient Glowing Orbs -->
+    <div class="ambient-blob blob-1"></div>
+    <div class="ambient-blob blob-2"></div>
+    <div class="ambient-blob blob-3"></div>
 
-    <h2>AI & ML Student</h2>
+    <div class="container">
+        
+        <!-- Main Profile Header -->
+        <div class="bento-card profile-card">
+            <div class="profile-left">
+                <div class="avatar-container">
+                    <div class="avatar">NV</div>
+                    <div class="status-badge"></div>
+                </div>
+                <div class="profile-info">
+                    <h1>Nani Vajragiri <i class="fa-solid fa-circle-check verified-icon"></i></h1>
+                    <p>Developer • Creator • Tech Enthusiast</p>
+                </div>
+            </div>
+            <div class="status-pill">
+                <div class="pulse-dot"></div>
+                Available for Collabs
+            </div>
+        </div>
 
-    <p>
-        Dreamer | Learner | Builder
-    </p>
+        <!-- Social Media Bento Grid -->
+        <div class="bento-grid">
+            
+            <!-- Instagram -->
+            <a href="https://instagram.com" target="_blank" class="bento-card social-link instagram">
+                <div class="card-top">
+                    <div class="icon-box"><i class="fa-brands fa-instagram"></i></div>
+                    <i class="fa-solid fa-arrow-trend-up arrow-icon"></i>
+                </div>
+                <div class="card-bottom">
+                    <h3>Instagram</h3>
+                    <span>@nanivajragiri</span>
+                </div>
+            </a>
 
-    <p>
-        I am passionate about Artificial Intelligence,
-        Machine Learning and Web Development.
-    </p>
+            <!-- LinkedIn -->
+            <a href="https://linkedin.com" target="_blank" class="bento-card social-link linkedin">
+                <div class="card-top">
+                    <div class="icon-box"><i class="fa-brands fa-linkedin-in"></i></div>
+                    <i class="fa-solid fa-arrow-trend-up arrow-icon"></i>
+                </div>
+                <div class="card-bottom">
+                    <h3>LinkedIn</h3>
+                    <span>Let's Connect</span>
+                </div>
+            </a>
 
-    <h2>My Motivation 🚀</h2>
+            <!-- GitHub -->
+            <a href="https://github.com/nanivajragiri" target="_blank" class="bento-card social-link github">
+                <div class="card-top">
+                    <div class="icon-box"><i class="fa-brands fa-github"></i></div>
+                    <i class="fa-solid fa-arrow-trend-up arrow-icon"></i>
+                </div>
+                <div class="card-bottom">
+                    <h3>GitHub</h3>
+                    <span>Code & Repositories</span>
+                </div>
+            </a>
 
-    <p>
-        Always learning, always growing.
-        Small steps today create a better tomorrow.
-    </p>
+            <!-- WhatsApp -->
+            <a href="https://wa.me/" target="_blank" class="bento-card social-link whatsapp">
+                <div class="card-top">
+                    <div class="icon-box"><i class="fa-brands fa-whatsapp"></i></div>
+                    <i class="fa-solid fa-arrow-trend-up arrow-icon"></i>
+                </div>
+                <div class="card-bottom">
+                    <h3>WhatsApp</h3>
+                    <span>Instant Chat</span>
+                </div>
+            </a>
 
-    <h2>My Goal 🎯</h2>
+            <!-- X / Twitter -->
+            <a href="https://x.com" target="_blank" class="bento-card social-link twitter">
+                <div class="card-top">
+                    <div class="icon-box"><i class="fa-brands fa-x-twitter"></i></div>
+                    <i class="fa-solid fa-arrow-trend-up arrow-icon"></i>
+                </div>
+                <div class="card-bottom">
+                    <h3>X (Twitter)</h3>
+                    <span>Thoughts & Updates</span>
+                </div>
+            </a>
 
-    <p>
-        Learn coding, build useful projects and create my own future.
-    </p>
+            <!-- YouTube -->
+            <a href="https://youtube.com" target="_blank" class="bento-card social-link youtube">
+                <div class="card-top">
+                    <div class="icon-box"><i class="fa-brands fa-youtube"></i></div>
+                    <i class="fa-solid fa-arrow-trend-up arrow-icon"></i>
+                </div>
+                <div class="card-bottom">
+                    <h3>YouTube</h3>
+                    <span>Watch Content</span>
+                </div>
+            </a>
+
+            <!-- Full-width Tech Stack / Highlights Card -->
+            <div class="bento-card wide-card">
+                <div>
+                    <h3 style="font-size: 18px; margin-bottom: 4px;">🚀 Core Stack & Skills</h3>
+                    <div class="skills-tag-wrap">
+                        <span class="tag">Java</span>
+                        <span class="tag">Python</span>
+                        <span class="tag">Web Development</span>
+                        <span class="tag">Data Structures</span>
+                        <span class="tag">UI/UX</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <footer>
+            <p>© 2026 Nanivajragiri. Built with GitHub Pages.</p>
+        </footer>
+
+    </div>
 
 </body>
 </html>
